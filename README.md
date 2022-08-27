@@ -16,3 +16,4 @@ This is great this is fun.
 I am really hungry right now. Maybe I shall eat.
 Maybe some roasted squash and ginger rice with sriracha mayo.YUM!
 I recently have realized that I strongly dislike consumerism. Realizing how much shit there is in the world and how people are still purchasing STUFF they don't need. Maybe I'll start my own minimalist community where we all have gardens and can support each other.
+Might be a little far-fetched, but the idea is nice. BUT the worst part is... I like new things too so I am a part of consumerism and it's tripping me out.
