@@ -7,3 +7,4 @@ This README file contains information about my uploaded assignments
 I love dogs and they are pretty damn cool
 Beans, beans the magical fruit, the more you eat the more you...
 Beans beans the magical fruit, the more you eat the more you toot.
+I'm not superstitious, but I am a little stitious.
