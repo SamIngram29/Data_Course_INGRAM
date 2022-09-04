@@ -1,0 +1,68 @@
+﻿# List all files found in Data/ directory that are .csv
+?list.files
+list.files(recursive = TRUE,pattern = ".csv",path = "Data")
+
+
+# Store list in an object called "csv_files"
+csv_files <- list.files(recursive = TRUE,full.names=TRUE,pattern = ".csv",path = "Data")
+
+
+#How many files are there .csv?
+length(csv_files)
+
+
+#find wingspan data set
+list.files(path = "Data",recursive = TRUE, pattern = "wingspan_vs_mass.csv")
+
+
+#assign wing set a value
+wing <- list.files(path = "Data",full.names= TRUE,recursive = TRUE, pattern = "wingspan_vs_mass.csv")
+
+
+#read the data
+read.csv(file = wing)
+
+
+#assign the set
+df <- read.csv(file = wing)
+
+
+#inspect first 5 lines
+head(df,n=5)
+
+
+# ^ 'starts with
+# $ 'ends with'
+# * '0-inf of anything'
+# . 'any single character'
+# list files that start with b
+
+
+list.files(path = "Data", full.names = TRUE, recursive = TRUE,pattern = "^b" )
+
+
+# list files that start with b and end with b
+list.files(path = "Data", full.names = TRUE, recursive = TRUE,pattern = "^b.*b$" )
+
+
+#the dumb way of reading all 3 files
+readLines("Data/data-shell/creatures/basilisk.dat",n = 1)
+readLines("Data/data-shell/data/pdb/benzaldehyde.pdb",n = 1)
+readLines("Data/Messy_Take2/b_df.csv",n = 1)
+
+
+#better way to read all 3 files and the first line in each of the 3 files
+x <- list.files(path = "Data", full.names = TRUE,recursive = TRUE,pattern = "^b")#save the results as 'x'
+
+
+readLines(x[1],n=1) #use []notation to access results
+readLines(x[2],n=1) #one files at a time
+readLines(x[3],n=1)
+
+
+#best way to read all 3 files and the first line in each of the 3 files at the same time in one command!!
+# for-loop
+for (eachfile in x) {print(readLines(eachfile,n=1))}
+
+
+for (eachfile in csv_files) {print(readLines(eachfile,n=1))}
