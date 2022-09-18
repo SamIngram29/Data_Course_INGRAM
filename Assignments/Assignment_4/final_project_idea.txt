@@ -1,4 +1,22 @@
-  My final project idea is to use data I have collected from seed germination trials of rabbitbrush (Ericameria nauseosa), as well as data collected from field observations on pollen flow and how pollinators play a role in speciation events of rabbitbrush.
-  I would like to analyze data in a few ways. I would love to have a pollen flow map of the sites I have been doing research at. Specifically showing pollen flow between plant genotypes.
+1.    "final_project_idea.txt" Created.
+
+2.    In it, describe your idea for a data analysis final project:
+
+My final project idea is to use data I have collected from seed germination trials of rabbitbrush (Ericameria nauseosa), as well as data collected from field observations on pollen flow and how pollinators play a role in speciation events of rabbitbrush.
+
+3.    Also, Describe the sort of data you will use, potential sources, and what the data might look like:
+
+I would like to analyze data in a few ways. I would love to have a pollen flow map of the sites I have been doing research at. Specifically showing pollen flow between plant genotypes.
   Additionally, I would like to have several box blots that show the relationship between germination trials of genotypes and its deciduousness, and a box plot showing genotype and floral traits of rabbitbrush. I think I also would like to have a plot that shows what pollinator families visit specific genotypes. 
+  
+
+4.   Create fake data that simulates what your final project data set might look like:
+
+I created a germination plot with germination data in .csv (all on my Github).
+
+5.    Generate a plot (using ggplot) using either your real or fake data that shows at least one expected result:
+
+Plot created. Showing the germination percent for all the sites I collected seeds from. Just to get an idea of the success of seeds in each location.
+
+
   
