@@ -18,8 +18,12 @@ A_states <- data.frame(rbind(a1,a2,a3,a4))
 #III. Create a plot of that subset showing Deaths over time, with a separate facet for each state. (20 pts)
 A_states %>% 
   ggplot(aes(x=Last_Update,
-             y=Deaths, color=Province_State))+
-  ##scale_x_date(date_trans="%b %Y")+
+             y=Deaths, color=Province_State)) +
+ # geom_rect(xmin= "2020-04-12",
+           # xmax="2022-01-28",
+            #ymin= "-Inf",
+            #ymax= "Inf")+
+  #scale_x_date(date_trans ="%b %Y")+
   geom_point(size=.02)+
   geom_smooth(method="lm", se=FALSE)+ #Add loess curves WITHOUT standard error shading
   theme_bw() +
@@ -49,5 +53,24 @@ mutate(Province_State = fct_reorder(Province_State,-`max(Case_Fatality_Ratio)` )
 
 
 #VI. (BONUS 10 pts) Using the FULL data set, plot cumulative deaths for the entire US over time
+
+Deaths <- CD %>% 
+  select(Province_State, Last_Update, Deaths) %>% 
+  group_by(Last_Update) %>% 
+  mutate(Province_State = paste0(Province_State, collapse = ""))
+
+  #mutate(Province_State = paste(Province_State, collapse = ","))
+?summarize
+
+
+
+#Deaths <- CD %>% 
+ # group_by(Last_Update) %>% summarize(Deaths= mean(Deaths)) %>% 
+  #mutate(#group_by(Deaths) %>% 
+  #summarise("US" =paste0(Province_State, collapse = ","))
+  #group_by(Last_Update) %>% summarize(Deaths= mean(Deaths)) %>% 
+  #filter(Province_State)
+
+
 
 ##You’ll need to read ahead a bit and use the dplyr package functions group_by() and summarize() to accomplish this.
