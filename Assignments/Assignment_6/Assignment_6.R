@@ -1,7 +1,7 @@
 library(tidyverse)
 library(gganimate)
 
-dat <- read_csv("C:/Users/User/Data_Course_INGRAM/Data/BioLog_Plate_Data.csv")
+dat <- read_csv("../../Data/BioLog_Plate_Data.csv")
 dat %>% View
 dat %>% names
 #1. Cleans this data into tidy (long) form:
