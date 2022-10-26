@@ -1,0 +1,20 @@
+1: Are any of your predicted response values from your best model scientifically meaningless? Explain.
+The predicted response value was linear to the real data. So it fit along with the model really well.
+
+2: In your plots, did you find any non-linear relationships? Do a bit of research online and give a link to at least one resource explaining how to deal with modeling non-linear relationships in R.
+I believe that Humidity would be a non-linear variable. It is only categorized by "High" or "Low". Though in the plot facet wrapped by Humidity did show a difference in the growthrate of the two species involved.
+
+Here is the source that helped me to grasp the concept a lot better:
+https://techvidvan.com/tutorials/nonlinear-regression-in-r/
+
+3: Write the code you would use to model the data found in “/Data/non_linear_relationship.csv” with a linear model (there are a few ways of doing this)
+
+dat <- read_csv("./Data/non_linear_relationship.csv")
+
+#plotting the data without messing with it just to get an idea:
+dat %>% 
+  ggplot(aes(x=response, y=predictor))+
+  geom_point()
+  
+  
+I kind of get it, but also not quite sure how to go about completing this portion of the assignment. I read about the nls function?
