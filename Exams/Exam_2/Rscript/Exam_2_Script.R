@@ -83,3 +83,33 @@ gather_predictions(tidy1, mod1, mod2, mod3) %>%
 #After looking at the three models. Model #3 is the best model to help interpret the data.
 # variables of year * continent show a correlation and do impact each other.
 
+#################################################
+### BONUS #######################################
+#################################################
+#BONUS - Using your preferred model, predict what the U5MR would be for Ecuador
+#in the year 2020. The real value for Ecuador for 2020 was 13 under-5 deaths per
+#1000 live births. How far off was your model prediction???
+  
+#Your code should predict the value using the model and calculate the difference between
+#the model prediction and the real value (13).
+
+Hyp <- data.frame(Year=2020,
+                      Continent= "Americas",
+                      CountryName= "Ecuador",
+                      Region= "South America")
+pred= predict(mod3,newdata = Hyp)
+
+hyp_pred <- data.frame(Year= Hyp$Year,
+                       Continent= Hyp$Continent,
+                       CountryName= Hyp$CountryName,
+                       Region=Hyp$Region,
+                       pred=pred)
+
+tidy1$PredictionType <- "Real" 
+hyp_pred$PredictionType <- "Hypothetical"
+
+fullpreds <- full_join(tidy1,hyp_pred)
+
+
+##This is as far as I got... Hahaha I think I was on the right path?
+
