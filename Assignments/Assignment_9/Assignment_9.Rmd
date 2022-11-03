@@ -1,0 +1,141 @@
+---
+title: "Assignment 9"
+author: "Samantha Ingram"
+date: "2022-10-31"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE)
+
+```
+
+
+In this assignment I will be looking at factors that contribute to a students admission into Graduate school.
+
+<br>
+
+First I will load a few handy packages:
+```{r}
+library(tidyverse)
+library(modelr)
+library(easystats)
+library(palmerpenguins)
+library(GGally)
+library(kableExtra)
+library(broom)
+theme_set(theme_minimal())
+```
+
+
+```{r}
+#Loading the data set
+df <- read_csv("./Data/GradSchool_Admissions.csv")
+
+df %>% glimpse
+```
+
+Making it True or False
+```{r}
+df$admit <- df$admit %>% as.logical()
+```
+
+<br>
+
+Taking a closer look at how variables interact:
+```{r}
+df %>% 
+  ggpairs()
+```
+<br>
+<br>
+Plotting gpa and gre and how admittance falls into those factors and facet wrapping by the rank of school type.
+
+```{r}
+df %>% 
+  ggplot(aes(y=gpa, x= gre, color=admit))+
+  geom_point()+
+  geom_smooth(method="lm", se=FALSE)+
+  facet_wrap(~rank)
+
+```
+
+Plotting a boxplot to get an idea of the admittance rate when comparing rank to gpa:
+```{r}
+df %>% 
+  ggplot(aes(y=rank, x =gpa, fill=admit))+
+  geom_boxplot()
+```
+
+
+<br>
+<br>
+
+Trying out a couple different models:
+```{r}
+names(df)
+
+mod1 <- glm(data=df, formula= admit~ gpa, family= "binomial")
+tidy(mod1) %>% 
+  filter(p.value <0.05)
+
+mod2 <- glm(data=df, formula= admit~gre, family="binomial")
+tidy(mod2)  %>% 
+  filter(p.value <0.05)
+
+mod3 <- glm(data=df, formula= admit~gpa*gre, family= "binomial")
+tidy(mod3) %>% 
+  filter(p.value<0.05)
+
+mod4 <- glm(data=df, formula= admit~gpa+gre, family= "binomial")
+tidy(mod4) %>% 
+  filter(p.value<0.05)
+
+mod5 <- glm(data=df, formula= admit~rank, family= "binomial")
+tidy(mod5) %>% 
+  filter(p.value<0.05)
+
+mod6 <- glm(data=df, formula= rank~gre + gpa)
+tidy(mod6) %>% 
+  filter(p.value<0.05)
+
+full_mod <- glm(data=df, formula=admit~gre+gpa+rank)
+tidy(full_mod) %>% 
+  filter(p.value<0.05)
+
+```
+
+<br>
+
+Now to compare all the models to each other:
+```{r}
+comparisons <- compare_performance(mod1,mod2,mod3,mod4,mod5, mod6,full_mod, rank=TRUE) 
+
+comparisons
+
+comparisons %>% plot
+```
+
+<br>
+
+So we see that mod5 is the best model for this data at this point. It is pretty simple in comparison to full_mod, which is pretty complex. So I will stick with mod5 for gathering predictions.
+
+Predictions comparing full_mod and mod5 together..just for fun!
+
+```{r}
+df %>% gather_predictions(mod5,full_mod) %>% 
+  ggplot(aes(x=rank, y=pred, fill=admit))+
+  geom_boxplot()+
+  geom_point(alpha=.4, color="black")+ 
+  facet_wrap(~model)
+```
+
+It seems like mod5 is more accurate at predicting than full_mod, but I could be misunderstanding. I was getting a little "overthinky" when I got to this point.
+
+Report:
+
+```{r}
+report(mod5)
+```
+
+
