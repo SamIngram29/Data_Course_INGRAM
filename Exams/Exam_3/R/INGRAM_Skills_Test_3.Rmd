@@ -1,0 +1,112 @@
+---
+title: "Exam 3"
+author: "Samantha Ingram"
+date: "2022-11-02"
+output: html_document
+---
+<br>
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE)
+```
+
+**Task 1: Loading packages and the necessary csv file**
+
+```{r}
+library(tidyverse)
+library(kableExtra)
+library(janitor)
+library(broom)
+library(easystats)
+
+df <- read_csv("./Data/FacultySalaries_1995.csv")
+
+df %>% head %>% kable() %>% kable_classic()
+
+#renaming to make it more readable for plotting. Just something I wanted to do.
+dat <- df %>% 
+  rename(Full = AvgFullProfSalary,
+         Assoc = AvgAssocProfSalary,
+         Assist = AvgAssistProfSalary,
+         All = AvgProfSalaryAll,
+         Comp_Full = AvgFullProfComp,
+         Comp_Assoc= AvgAssocProfComp,
+         Comp_Assist = AvgAssistProfComp,
+         Comp_All = AvgProfCompAll,
+         Num_Full = NumFullProfs,
+         Num_Assoc = NumAssocProfs,
+         Num_Assist = NumAssistProfs)
+```
+
+Cleaning up the data set to be in "longer" format:
+
+```{r}
+tidy <- dat %>% 
+  pivot_longer(cols = Full:All, names_to = "Rank", values_to = "Salary") %>% 
+  pivot_longer(cols = Comp_Full:Comp_All, names_to = "Comp_Rank", values_to= "Comp_Salary") %>% 
+  pivot_longer(cols= starts_with("Num"), names_to = "Prof_Rank", values_to = "Prof_Count")
+
+```
+
+Plotting the clean data set!
+
+```{r}
+tidy %>% 
+  unique.data.frame() %>% 
+  filter(Rank != "All", Tier != "VIIB") %>% 
+  group_by(Rank) %>% 
+  ggplot(aes(x=Rank, y=Salary, fill=Rank))+
+  geom_boxplot()+
+  facet_wrap(~Tier)+
+  theme_minimal()+
+  theme(axis.text.x = element_text(angle= 45))
+```
+<br>
+<br>
+
+
+**Task 2: Building an ANOVA model**
+
+```{r}
+#building a model that tests the influence of state, tier, and rank on salary.
+mod <- aov(data=tidy, formula= Salary ~ State+ Tier+ Rank)
+summary(mod)
+```
+It looks like state, tier and rank all are important factors to consider when it comes to salary.
+<br>
+<br>
+
+**Task 3: Looking at a new data set "Juniper_Oils"**
+```{r}
+Juniper <- read_csv("./Data/Juniper_Oils.csv")
+Juniper %>% head %>% kable() %>% kable_classic()
+```
+<br>
+
+Cleaning up the Juniper data set!!
+```{r}
+tidyjuniper <- Juniper %>% janitor::clean_names() %>% 
+  pivot_longer(cols = alpha_pinene:thujopsenal, names_to = "chemical_id", values_to = "concentration")
+```
+
+<br>
+<br>
+
+**Task 4: Plotting the new "tidyjuniper" data set**
+```{r}
+    tidyjuniper %>% 
+      ggplot(aes(x=years_since_burn, y=concentration))+
+      geom_smooth()+
+      facet_wrap(~chemical_id, scales = "free")+
+  theme_minimal()
+```
+<br>
+<br>
+
+**Task 5: Building a generalized linear model to test chemical compounds that are significant when considering years since burn**
+```{r}
+junmod <- glm(data=tidyjuniper, formula= concentration~ chemical_id *years_since_burn )
+tidy(junmod) %>% 
+  filter(p.value<0.05)
+```
+
