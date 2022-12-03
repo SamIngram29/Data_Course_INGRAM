@@ -15,3 +15,6 @@ Exam 2 -- Cleaning data, Tidying data, ggplot visualizations, functions
 Exam 3 -- Building and testing models, making and interpreting model predictions, using common statistical tests, building a "markdown" report
 
 Exam 4 -- Redo any one of the previous exams. New score will replace previous score **AND** will count as your score for Exam 4
+
+
+  
